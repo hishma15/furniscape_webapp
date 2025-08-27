@@ -18,9 +18,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'address',
+        'phone_no',
+        'role',
     ];
 
     /**
@@ -45,4 +49,39 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relationships
+    
+    public function orders() {
+        return $this->hasMany(Order::class, 'customer_id');
+    }
+
+    public function cart() {
+        return $this->hasOne(Cart::class);   //At a time one cart would be available
+    }
+
+    public function consultations() {
+        return $this->hasMany(Consultation::class, 'customer_id');
+    } 
+
+    public function isAdmin() {
+        return $this->role === 'admin';
+    }
+
+    public function managedProducts() {
+        return $this->hasMany(Product::class, 'admin_id');
+    }
+
+    public function managedOrders() {
+        return $this->hasMany(Order::class, 'admin_id');
+    }
+
+    public function managedConsultations() {
+        return $this->hasMany(Consultation::class, 'admin_id');
+    }
+
+    public function managedCategories() {
+        return $this->hasMany(Category::class, 'admin_id');
+    }
+
 }
