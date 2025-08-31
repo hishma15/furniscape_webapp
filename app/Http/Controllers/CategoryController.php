@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $category = Category::with(['admin'])->paginate(10);
+        $categories = Category::with(['admin'])->paginate(10);
         return CategoryResource::collection($categories);
 
     }
