@@ -28,8 +28,7 @@ class UserController extends Controller
     {
         //validates the request data based on the provided rules
         $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'address' => 'nullable|string',
@@ -65,8 +64,7 @@ class UserController extends Controller
     {
         // Validates the incoming requuest 
         $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,  //Ensures that the email remains unique for the specific user
             'phone_no' => 'nullable|string',
             'address' => 'nullable|string',

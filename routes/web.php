@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\AdminLoginController;
+
 
 Route::get('test', function () {
     
@@ -39,4 +42,30 @@ Route::get('test', function () {
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+
+
+
+// Admin Login Route
+Route::middleware('guest')->group(function () {
+    Route::get('/admin/login', [AdminLoginController::class, 'create'])->name('admin.login');
+    Route::post('/admin/login', [AdminLoginController::class, 'store']);
+});
+
+// Admin Logout Route
+Route::post('/admin/logout', [AdminLoginController::class, 'destroy'])->name('admin.logout');
+
+// Admin Dashboard Route
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });

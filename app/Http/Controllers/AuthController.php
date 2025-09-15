@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\User;
+
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -39,4 +43,36 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Logged out successfully']);
     }
+
+    // For mobile app registration
+    public function register(Request $request)
+    {
+
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|confirmed|min:8',
+            'phone_no' => 'nullable|string',
+            'address' => 'nullable|string',
+            'role' => 'required|string|in:admin,customer',
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'phone_no' => $validated['phone_no'] ?? '',
+            'address' => $validated['address'] ?? '',
+            'role' => $validated['role'],
+        ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'token' => $token,
+            'user' => $user,
+        ], 201);
+    }
+
 }
