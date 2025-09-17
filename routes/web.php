@@ -44,6 +44,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/about', function () {
+        return view('about');
+    })->name('about');
+    
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -68,4 +73,12 @@ Route::post('/admin/logout', [AdminLoginController::class, 'destroy'])->name('ad
 // Admin Dashboard Route
 Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::get('/admin/categories', function () {
+    return view('admin.manage-categories');})->name('admin.categories');
+
+    Route::get('/admin/products', function () {
+        return view('admin.manage-products');
+    })->name('admin.products');
 });
+

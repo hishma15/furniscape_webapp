@@ -1,8 +1,7 @@
-<x-app-layout>
+<x-admin-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <h1> Welcome to the FurniScape Admin Dashboard</h1>
-
-        </h2>
+        <h1 class="text-3xl font-bold text-black text-center font-lustria">ADMIN DASHBAORD</h1>
     </x-slot>
-</x-app-layout>
+
+    @livewire('admin.dashboard')
+</x-admin-layout>

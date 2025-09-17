@@ -16,4 +16,20 @@
         @apply font-montserrat text-black tracking-wider;
     }
 
+    .header-back {
+        @apply bg-beige text-black p-2 font-semibold;
+    }
+
+    .admin-sidemenu{
+        @apply flex items-center gap-3 bg-brown px-4 py-3 hover:bg-btnHoverBrown;
+    }
+
+    .admin-dashboard-card {
+        @apply bg-beige rounded-lg shadow p-6;
+    }
+
+    .admin-dashboard-card-title {
+        @apply text-lg font-semibold font-montserrat tracking-wide;
+    }
+
 }

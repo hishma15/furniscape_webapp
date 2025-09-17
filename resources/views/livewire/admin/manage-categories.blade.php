@@ -1,0 +1,83 @@
+<div>
+
+    @if (session()->has('message'))
+        <div class="bg-green-100 text-green-800 px-4 py-3 rounded mb-6">
+            {{ session('message') }}
+        </div>
+    @endif
+
+    <button wire:click="openCreateModal" class="bg-brown text-beige font-bold py-2 px-6 rounded-full mb-6 hover:bg-btn-hover-brown transition">
+        Create Category
+    </button>
+
+    <div class="overflow-x-auto max-h-[400px] bg-beige/80 rounded-lg shadow-lg p-4">
+        <table class="w-full table-auto border-collapse border border-gray-300">
+            <thead>
+                <tr>
+                    <th class="border px-4 py-2">Name</th>
+                    <th class="border px-4 py-2">Description</th>
+                    <th class="border px-4 py-2">Image</th>
+                    <th class="border px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($categories as $category)
+                <tr>
+                    <td class="border px-4 py-2">{{ $category->category_name }}</td>
+                    <td class="border px-4 py-2">{{ $category->category_desc }}</td>
+                    <td class="border px-4 py-2">
+                        <img src="{{ asset('storage/' . $category->category_image) }}" class="w-[150px] h-[150px] object-cover rounded" />
+                    </td>
+                    <td class="border px-4 py-2 space-x-2 flex flex-row justify-between items-center">
+                        <button wire:click="openEditModal({{ $category->id }})" class="bg-brown text-beige px-3 py-1 rounded-full hover:bg-btn-hover-brown transition">
+                            Edit
+                        </button>
+                        <button wire:click="delete({{ $category->id }})" class="text-red-600 border border-red-500 px-3 py-1 rounded-full hover:bg-red-500 hover:text-white transition"
+                            onclick="confirm('Are you sure?') || event.stopImmediatePropagation()">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="mt-4">
+            {{ $categories->links() }}
+        </div>
+    </div>
+
+    @if($showModal)
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-beige/80 rounded-lg p-8 max-w-3xl shadow-lg relative">
+            <h2 class="text-2xl font-lustria font-bold mb-6 text-center">
+                {{ $editMode ? 'Edit Category' : 'Create Category' }}
+            </h2>
+
+            <form wire:submit.prevent="{{ $editMode ? 'update' : 'store' }}" enctype="multipart/form-data" class="space-y-6">
+                <input type="text" wire:model.defer="category_name" placeholder="Category Name" required
+                    class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brown" />
+                <textarea wire:model.defer="category_desc" placeholder="Category Description"
+                    class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brown"></textarea>
+                <input type="file" wire:model="category_image" class="w-full border border-gray-300 rounded px-4 py-2" />
+                @if ($category_image)
+                    <div class="mt-2">
+                        <img src="{{ $category_image->temporaryUrl() }}" class="w-[100px] h-[100px] object-cover rounded">
+                    </div>
+                @endif
+
+                <div class="flex justify-end gap-4">
+                    <button type="button" wire:click="$set('showModal', false)" class="bg-gray-300 rounded-full px-6 py-2 hover:bg-gray-400 transition">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-brown text-beige rounded-full px-6 py-2 hover:bg-btn-hover-brown transition">
+                        {{ $editMode ? 'Update' : 'Create' }}
+                    </button>
+                </div>
+            </form>
+
+            <button wire:click="$set('showModal', false)"
+                class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-3xl font-bold cursor-pointer">&times;</button>
+        </div>
+    </div>
+    @endif
+</div>

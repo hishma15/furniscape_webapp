@@ -39,7 +39,7 @@ class AdminLoginController extends Controller
         return back()->withErrors(['email' => 'Invalid credentials.']);
     }
 
-    public function destory(Request $request) {
+    public function destroy(Request $request) {
         Auth::logout();
 
         $request->session()->invalidate();
