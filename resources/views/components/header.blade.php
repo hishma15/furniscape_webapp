@@ -37,7 +37,7 @@
         <!-- Navigation -->
         <nav class="col-span-1 flex justify-center items-center py-3.5">
             <ul id="navLinks" class="hidden md:flex flex-col md:flex-row md:space-x-8 md:static md:w-auto absolute top-20 right-4 w-72 bg-beige md:bg-transparent shadow-lg md:shadow-none rounded-md md:rounded-none p-4 md:p-0 space-y-4 md:space-y-0 z-30">
-                <li><a href="#" class="hover:underline">HOME</a></li>
+                <li><a href="{{ route('home') }}" class="hover:underline">HOME</a></li>
                 <li class="relative group">
                     <a href="#" class="hover:underline flex items-center gap-1">
                         CATEGORIES <i class="fa-solid fa-angle-down"></i>
@@ -45,15 +45,15 @@
                     <ul class="absolute left-0 mt-2 w-60 bg-beige border-brown-1 shadow-lg rounded-md text-black text-sm hidden group-hover:block md:group-hover:block z-40 group-focus-within:block">
                         @foreach ($categories as $category)
                             <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer z-40">
-                                {{-- <a href="{{ route('customer.category.products', $category->id) }}">
+                                <a href="#">
                                     {{ $category->category_name }}
-                                </a> --}}
+                                </a>
                             </li>
                         @endforeach
                     </ul>
                 </li>
-                <li><a href="{{ route('about') }}" class="hover:underline">ABOUT US</a></li>
-                <li><a href="#" class="hover:underline">SERVICES</a></li>
+                <li><a href="{{ route('about') }}" class="hover:underline whitespace-nowrap">ABOUT US</a></li>
+                <li><a href="{{ route('services') }}" class="hover:underline">SERVICES</a></li>
             </ul>
 
             <!-- Hamburger -->

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\HomeController;
 
 
 Route::get('test', function () {
@@ -40,13 +41,19 @@ Route::get('test', function () {
 });
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/about', function () {
         return view('about');
     })->name('about');
+
+Route::get('/services', function () {
+        return view('services');
+    })->name('services');
     
 
 Route::middleware([

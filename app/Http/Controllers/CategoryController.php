@@ -30,7 +30,7 @@ class CategoryController extends Controller
             'category_name' => 'required|string|max:255',
             'category_desc' => 'nullable|string',
             'category_image' => 'nullable|string',
-            'admin' => 'required|exists:users,id',
+            'admin_id' => 'required|exists:users,id',
         ]);
 
         $category = Category::create($validated);
@@ -44,7 +44,7 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         //
-        $category = Category::with(['admin'])->findeOrFail($id);
+        $category = Category::findOrFail($id);
         return new CategoryResource($category);
     }
 
