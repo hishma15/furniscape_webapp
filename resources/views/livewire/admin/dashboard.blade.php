@@ -13,9 +13,14 @@
                 <p class="text-2xl mt-2">{{ $ordersCount }}</p>
             </div>
 
-            <div class="admin-dashboard-card">
+            {{-- <div class="admin-dashboard-card">
                 <h3 class="admin-dashboard-card-title">CONSULTATION</h3>
                 <p class="text-2xl mt-2">{{ $consultationsCount }}</p>
+            </div> --}}
+
+            <div class="admin-dashboard-card">
+                <h3 class="admin-dashboard-card-title">Consultation Status Breakdown</h3>
+                <canvas id="statusChart" height="150"></canvas>
             </div>
         </div>
 
@@ -47,4 +52,44 @@
                 </tbody>
             </table>
         </div>
+
+        
+
     </div>
+
+    
+
+{{-- Display pie chart on the dashbaord [shows the consultation status] using Chart.js --}}
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // To get the <canvas> element in HTML with ID =statusChart
+        const ctx = document.getElementById('statusChart').getContext('2d');
+
+        const data = {
+            // Sets the labels on pie chart [pending, confirmed, completed, cancelled] -NOT PRE-ASSIGNED
+            labels: @json(array_keys($statusCounts)),
+            
+            datasets: [{
+                label: 'Consultation',
+                
+                //Provides actual data values for chart
+                data: @json(array_values($statusCounts)),
+                backgroundColor: [
+                    '#f87171', // red for cancelled
+                    '#fbbf24', // yellow for pending
+                    '#34d399', // green for confirmed
+                    '#60a5fa', // blue for completed
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Creates and renders a new pie chart using the data
+        new Chart(ctx, {
+            type: 'pie',
+            data: data
+        });
+    });
+</script>
+
+

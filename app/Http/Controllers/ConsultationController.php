@@ -31,8 +31,8 @@ class ConsultationController extends Controller
             'mode' => 'required|string',
             'topic' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'admin_id' => 'required|exists:user,id',
-            'customer_id' => 'required|exists:user,id',
+            'admin_id' => 'required|exists:users,_id',
+            'customer_id' => 'required|exists:users,_id',
         ]);
 
         // Set the status to 'pending' by default for new consultations
@@ -122,4 +122,22 @@ class ConsultationController extends Controller
         // Return success message
         return response()->json(['message' => 'Consultation deleted successfully.'], 200);
     }
+
+    public function statusSummary() {
+        $statusCounts = Consultation::raw(function($collection) {
+            return $collection->aggregate([
+                [
+                    '$group' => [
+                        '_id' => '$status',
+                        'count' => ['$sum' => 1]
+                    ]
+                ],
+                [
+                    '$sort' => ['count' => -1]
+                ]
+            ]);
+        });
+        return response()->json($statusCounts);
+    }
+
 }

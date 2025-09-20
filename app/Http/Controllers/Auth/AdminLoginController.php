@@ -23,6 +23,8 @@ class AdminLoginController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email','password'), $request->boolean('remember'))) {
+
+            //  $request->session()->regenerate();
             
             // Check if the authenticated user is an admin
             /** @var \App\Models\UserModel $user  **/

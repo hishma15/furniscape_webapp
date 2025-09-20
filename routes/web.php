@@ -78,14 +78,23 @@ Route::middleware('guest')->group(function () {
 Route::post('/admin/logout', [AdminLoginController::class, 'destroy'])->name('admin.logout');
 
 // Admin Dashboard Route
-Route::middleware('auth')->group(function () {
+// Route::middleware(['web','auth', 'admin'])->group(function () {
+//     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+//     Route::get('/admin/categories', function () {
+//     return view('admin.manage-categories');})->name('admin.categories');
+
+//     Route::get('/admin/products', function () {
+//         return view('admin.manage-products');})->name('admin.products');
+// });
+
+Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     Route::get('/admin/categories', function () {
     return view('admin.manage-categories');})->name('admin.categories');
 
     Route::get('/admin/products', function () {
-        return view('admin.manage-products');
-    })->name('admin.products');
+        return view('admin.manage-products');})->name('admin.products');
 });
 
