@@ -1,11 +1,11 @@
 @layer components {
 
     .customer-auth-back{
-        @apply relative bg-cover bg-center bg-fixed h-screen;
+        @apply relative bg-cover bg-center min-h-screen flex items-center justify-center;
     }
 
     .cusotmer-auth-section{
-        @apply absolute bg-beige/80 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 pt-6 mt-2 rounded-lg shadow-lg w-full md:max-w-lg;
+        @apply bg-beige/80 p-8 rounded-lg shadow-lg w-full md:max-w-xl;
     }
 
     .auth-heading {

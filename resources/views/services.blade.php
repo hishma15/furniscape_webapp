@@ -30,7 +30,7 @@
 
             <p class="action-p">Talk to our design specialists and get personalized recommendations.</p>
 
-            <a class="action-a" href="#">BOOK A COSULTATION</a>
+            <a class="action-a" href="{{ route('customer.consultationForm') }} ">BOOK A COSULTATION</a>
         </div>
     </section>
 

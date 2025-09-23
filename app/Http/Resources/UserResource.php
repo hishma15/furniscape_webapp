@@ -12,13 +12,12 @@ class UserResource extends JsonResource
         
         return[
             'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
+            'name' => $this->name,
             'email' => $this->email,
             'phone_no' => $this->phone_no,
             'address' => $this->address,
             'role' => $this->role,
-            'full_name' => $this->first_name . ' ' . $this->last_name,
+            // 'full_name' => $this->first_name . ' ' . $this->last_name,
         
             // 'orders' => new OrderResource($this->whenLoaded('orders')),
             'orders' => OrderResource::collection($this->whenLoaded('orders')),

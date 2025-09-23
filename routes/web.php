@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ConsultationController;
 
 
 Route::get('test', function () {
@@ -61,9 +62,14 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
+
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+    Route::get('consultations', [ConsultationController::class, 'createForm'])->name('customer.consultationForm');
+    // Route::post('consultations', [ConsultationController::class, 'store'])->name('consultations.webstore');
 });
 
 
@@ -78,7 +84,7 @@ Route::middleware('guest')->group(function () {
 Route::post('/admin/logout', [AdminLoginController::class, 'destroy'])->name('admin.logout');
 
 // Admin Dashboard Route
-// Route::middleware(['web','auth', 'admin'])->group(function () {
+// Route::middleware(['auth', 'admin'])->group(function () {
 //     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
 //     Route::get('/admin/categories', function () {
@@ -96,5 +102,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/products', function () {
         return view('admin.manage-products');})->name('admin.products');
+
+    Route::get('/admin/consultations', function () {
+        if (auth()->user()->role !== 'admin') {
+            abort(403); // Forbidden
+        }
+        return view('admin.manage-consultation');
+    })->name('admin.consultations'); 
 });
 

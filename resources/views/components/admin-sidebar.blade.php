@@ -10,7 +10,7 @@
             <a href="#" class="admin-sidemenu">
                 <i class="fa-solid fa-cart-shopping"></i> Manage Orders
             </a>
-            <a href="#" class="admin-sidemenu">
+            <a href=" {{route('admin.consultations') }}" class="admin-sidemenu">
                 <i class="fa-solid fa-comments"></i> Manage Consultation
             </a>
             <a href="#" class="admin-sidemenu">
