@@ -20,7 +20,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased" data-logged-in="{{ auth()->check() ? 'true' : 'false' }}">
         {{-- <x-banner />
 
         <div class="min-h-screen bg-gray-100">
@@ -48,5 +48,7 @@
         @stack('modals')
 
         @livewireScripts
+
+        @vite('resources/js/products.js')
     </body>
 </html>

@@ -6,7 +6,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\ProductController;
 
+use Illuminate\Http\Request;
 
 Route::get('test', function () {
     
@@ -55,6 +57,8 @@ Route::get('/about', function () {
 Route::get('/services', function () {
         return view('services');
     })->name('services');
+
+Route::get('/products', [ProductController::class, 'showProductPage'])->name('products');
     
 
 Route::middleware([
@@ -111,3 +115,14 @@ Route::middleware(['auth'])->group(function () {
     })->name('admin.consultations'); 
 });
 
+
+Route::middleware('auth')->post('/api/token', function (Request $request) {
+    $user = $request->user();
+
+    // Optionally delete old tokens
+    $user->tokens()->where('name', 'web_token')->delete();
+
+    $token = $user->createToken('web_token')->plainTextToken;
+
+    return response()->json(['token' => $token]);
+});

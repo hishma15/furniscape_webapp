@@ -9,7 +9,7 @@
     <section class="relative overflow-hidden py-2">
         <img src="{{ asset('images/aboutusPageBanner.png') }}" alt="About Us Page Image" class="w-full max-w-none object-cover">
         <div class="absolute md:bottom-15 md:right-30 right-5 bottom-5 flex items-end justify-end p-4 md:p-6">
-            <a href="#" class="bg-brown text-center text-beige font-montserrat px-6 py-3 rounded-full shadow-md hover:bg-btnHoverBrown transition inline-block whitespace-nowrap">EXPLORE OUR SERVICES</a>
+            <a href="{{ route('services') }}" class="bg-brown text-center text-beige font-montserrat px-6 py-3 rounded-full shadow-md hover:bg-btnHoverBrown transition inline-block whitespace-nowrap">EXPLORE OUR SERVICES</a>
         </div>
 
     </section>

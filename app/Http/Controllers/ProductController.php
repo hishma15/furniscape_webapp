@@ -5,18 +5,39 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
 
+use App\Models\Category;
+
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function showProductPage(Request $request)
+{
+    $categories = Category::all();
+    return view('products', compact('categories'));
+}
+
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // Retrieve all prpducts, with the associated category and admin information
-        $products = Product::with(['category', 'admin'])->paginate(10);
+        // $products = Product::with(['category', 'admin'])->paginate(10);
+        // return ProductResource::collection($products);
+
+        $query = Product::with(['category', 'admin']);
+
+        if ($request->has('category_id') && $request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        $products = $query->paginate(10);
         return ProductResource::collection($products);
+
+
     }
 
     /**

@@ -10,7 +10,7 @@
         <img src="{{ asset('images/bannerImage.png') }}" alt="Landing Page Image" class="w-full max-w-none object-cover">
         <!-- CTA Button -->
         <div class="absolute inset-0 flex items-center justify-center z-10">
-            <a href="#" class="bg-white text-black font-montserrat font-semibold md:py-4 md:px-10 md:mr-6 md:mt-0 mt-4 py-2 px-2 mr-4 2xl:py-6 2xl:px-18 2xl:mr-10 rounded-lg md:text-xl text-sm shadow-lg border-2 border-black hover:bg-beige">BUY NOW</a>
+            <a href="{{ route('products') }}" class="bg-white text-black font-montserrat font-semibold md:py-4 md:px-10 md:mr-6 md:mt-0 mt-4 py-2 px-2 mr-4 2xl:py-6 2xl:px-18 2xl:mr-10 rounded-lg md:text-xl text-sm shadow-lg border-2 border-black hover:bg-beige">BUY NOW</a>
         </div>
     </section>
 

@@ -39,7 +39,7 @@ class UserFactory extends Factory
 
             'address' => $this->faker->address(),
             'phone_no' => $this->faker->phoneNumber(),
-            'role' => $this->faker->randomElement(['admin', 'customer']),
+            'role' => 'customer',
         ];
     }
 

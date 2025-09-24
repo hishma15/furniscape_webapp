@@ -29,7 +29,7 @@
 
         <!-- Logo -->
         <div class="row-span-2 flex item-center">
-            <a href="#">
+            <a href="{{ route('home') }}">
                 <img src="{{ asset('images/logoPNG.png') }}" alt="FurniScape Logo" style="height: 120px;" class="w-auto">
             </a>
         </div>
@@ -45,7 +45,7 @@
                     <ul class="absolute left-0 mt-2 w-60 bg-beige border-brown-1 shadow-lg rounded-md text-black text-sm hidden group-hover:block md:group-hover:block z-40 group-focus-within:block">
                         @foreach ($categories as $category)
                             <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer z-40">
-                                <a href="#">
+                                <a href="{{ route('products', ['category_id' => $category->id]) }}">
                                     {{ $category->category_name }}
                                 </a>
                             </li>

@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 
+
 // Get the token from localStorage (or your storage method)
 const token = localStorage.getItem('api_token');
 
@@ -10,6 +11,7 @@ if (token) {
 } else {
   console.warn('No auth token found, requests will be unauthenticated');
 }
+
 
 
 // Run all JS after page load
