@@ -103,6 +103,6 @@
     </script> --}}
 
     {{-- Include JS --}}
-    @vite('resources/js/consultation.js')
+    @vite('resources/js/admin-consultation.js')
 
 </x-admin-layout>

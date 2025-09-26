@@ -116,13 +116,13 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::middleware('auth')->post('/api/token', function (Request $request) {
-    $user = $request->user();
+// Route::middleware('auth')->post('/api/token', function (Request $request) {
+//     $user = $request->user();
 
-    // Optionally delete old tokens
-    $user->tokens()->where('name', 'web_token')->delete();
+//     // Optionally delete old tokens
+//     $user->tokens()->where('name', 'web_token')->delete();
 
-    $token = $user->createToken('web_token')->plainTextToken;
+//     $token = $user->createToken('web_token')->plainTextToken;
 
-    return response()->json(['token' => $token]);
-});
+//     return response()->json(['token' => $token]);
+// });

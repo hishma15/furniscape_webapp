@@ -19,6 +19,10 @@
 
         <!-- Styles -->
         @livewireStyles
+
+        <script>
+            window.api_token = "{{ session('api_token') ?? '' }}";
+        </script>
     </head>
     <body class="font-sans antialiased relative bg-cover bg-center h-screen" style="background-image: url('{{ asset('images/admin-back.jpg') }}');">
 

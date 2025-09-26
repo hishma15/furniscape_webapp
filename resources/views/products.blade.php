@@ -5,6 +5,10 @@
         </h2>
     </x-slot>
 
+
+    {{-- <p>Token in session: {{ session('api_token') ?? 'No token' }}</p> --}}
+
+
     {{-- Category Name --}}
     <h1 class="heading-style" id="category-name"></h1>
 

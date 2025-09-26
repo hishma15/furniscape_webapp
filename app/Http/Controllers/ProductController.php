@@ -30,9 +30,16 @@ class ProductController extends Controller
 
         $query = Product::with(['category', 'admin']);
 
+        // filter by categories
         if ($request->has('category_id') && $request->category_id) {
             $query->where('category_id', $request->category_id);
         }
+
+        // filter by featured products
+        if ($request->has('is_featured') && $request->is_featured) {
+        $query->where('is_featured', true);
+        }
+
 
         $products = $query->paginate(10);
         return ProductResource::collection($products);

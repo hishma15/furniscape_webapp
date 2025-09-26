@@ -14,6 +14,7 @@ use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CartController;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\AdminLoginController;
 
 // Sample test route (optional)
 Route::get('/ping', function () {
@@ -35,6 +36,8 @@ Route::get('/ping', function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::post('/admin/login', [AdminLoginController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('products', ProductController::class);

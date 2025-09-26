@@ -19,6 +19,16 @@
 
         <!-- Styles -->
         @livewireStyles
+
+        {{-- <script>
+            window.api = window.api || {};
+            window.api.token = @json(session('api_token') ?? null);
+        </script> --}}
+
+        {{-- <script>
+            window.api_token = "{{ session('api_token') ?? '' }}";
+        </script> --}}
+
     </head>
     <body class="font-sans antialiased" data-logged-in="{{ auth()->check() ? 'true' : 'false' }}">
         {{-- <x-banner />

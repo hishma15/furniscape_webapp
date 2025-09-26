@@ -30,7 +30,24 @@ class AdminLoginController extends Controller
             /** @var \App\Models\UserModel $user  **/
             $user = Auth::user();
             if ($user->role === 'admin') {
-                // return redirect('/admin/dashboard');
+                
+                if ($request->expectsJson()) {
+                    // API request, return token as JSON
+                    $token = $user->createToken('admin-api-token')->plainTextToken;
+
+                    return response()->json([
+                        'token' => $token,
+                        'user' => $user,
+                    ]);
+                } else {
+                    // Web request — create token & store in session
+                    $token = $user->createToken('admin-api-token')->plainTextToken;
+                    $request->session()->put('api_token', $token);
+
+                    return redirect()->route('admin.dashboard');
+                }
+
+
                 return redirect()->route('admin.dashboard');
             }
 
@@ -44,6 +61,7 @@ class AdminLoginController extends Controller
     public function destroy(Request $request) {
         Auth::logout();
 
+        $request->session()->forget('api_token'); 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

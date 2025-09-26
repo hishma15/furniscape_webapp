@@ -1,6 +1,8 @@
 import axios from "axios";
 
-import { generateApiToken } from './auth';
+axios.defaults.withCredentials = true;
+
+import './cart';
 
 const baseUrl = window.location.origin;
 
@@ -26,18 +28,28 @@ function updateCategoryHeading(categoryId, categories) {
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-    const isLoggedIn = document.body.dataset.loggedIn === 'true';
+    // const isLoggedIn = document.body.dataset.loggedIn === 'true';
 
-    if (isLoggedIn) {
-        await generateApiToken();
-    }
+    // if (isLoggedIn) {
+    //     // await generateApiToken();
+    // }
 
     const categoryFilter = document.getElementById('categoryFilter');
     const categories = JSON.parse(categoryFilter.dataset.categories);
 
     const selectedCategoryId = getQueryParam('category_id') || '';
     updateCategoryHeading(selectedCategoryId, categories);
-    loadProducts(1, selectedCategoryId);
+
+    try {
+        // get CSRF cookie so Laravel can authenticate the session
+        await axios.get('/sanctum/csrf-cookie', { withCredentials: true });
+
+        // load products with session cookie
+        loadProducts(1, selectedCategoryId);
+    } catch (err) {
+        console.error('Failed to initialize auth:', err);
+    }
+    // loadProducts(1, selectedCategoryId);
 
     if (categoryFilter) {
         categoryFilter.value = selectedCategoryId;
@@ -54,14 +66,16 @@ function loadProducts(page = 1, categoryId = '') {
     const container = document.getElementById('product-container');
     const pagination = document.getElementById('pagination');
 
-    const token = localStorage.getItem('api_token');
-    console.log('Using token:', token);
+    // const token = localStorage.getItem('api_token');
+    // const token = window.token || ''; 
+    // console.log('Using token:', token);
 
     axios.get('/api/products', {
         params: {
             page: page,
             category_id: categoryId
-        }
+        },
+        withCredentials: true 
     }). then(response => {
         const products = response.data.data;
         const meta = response.data.meta;
@@ -101,11 +115,28 @@ function generateProductsCard(product) {
             <P class="product-price">LKR ${Number(product.price).toFixed(2)}</P>
             <div class="product-div-btn">
                 <button class="product-view-btn">View Details</button>
-                <a class="product-addtocart-btn" href=""><i class="fa-solid fa-cart-shopping"></i></a>
+                <button class="product-addtocart-btn" data-id="${product.id}" data-price="${product.price}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </button>
+
             </div>
         </div>
     `;
 }
+
+
+/////////////////////////////////////////
+document.addEventListener('click', function (e) {
+    if (e.target.closest('.product-addtocart-btn')) {
+        const button = e.target.closest('.product-addtocart-btn');
+        const productId = button.getAttribute('data-id');
+        const price = button.getAttribute('data-price');
+
+        addToCart(productId, price);
+    }
+});
+////////////////////////////////////
+
 
 // function renderPagination(meta, category_id = '') {
 //     const pagination = document.getElementById('pagination');

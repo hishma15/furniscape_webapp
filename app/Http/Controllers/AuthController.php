@@ -28,6 +28,7 @@ class AuthController extends Controller
         /** @var \App\Models\UserModel $user **/
         $user = Auth::user();
         $token = $user->createToken('api_token')->plainTextToken;
+        // session(['api_token' => $token]);
         // $token = $user->createToken('api_token')->plainTextToken;
 
         return response()->json([

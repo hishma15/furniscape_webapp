@@ -17,7 +17,7 @@
 
             <h2 class="auth-heading">ADMIN LOGIN</h2>
 
-            <form method="POST" action="{{ route('admin.login') }}">
+            <form method="POST" action="{{ route('admin.login') }} " id="admin-login-form">
             @csrf
 
                 <div>
@@ -42,5 +42,7 @@
         </div>
 
     </div>
+
+    @vite('resources/js/auth.js')
     
 </x-guest-layout>
