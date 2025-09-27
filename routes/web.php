@@ -7,6 +7,9 @@ use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AuthController;
+
+use App\Http\Controllers\CartController;
 
 use Illuminate\Http\Request;
 
@@ -58,8 +61,10 @@ Route::get('/services', function () {
         return view('services');
     })->name('services');
 
-Route::get('/products', [ProductController::class, 'showProductPage'])->name('products');
-    
+// Route::get('/products', [ProductController::class, 'showProductPage'])->name('products');
+
+Route::post('/customer-login', [AuthController::class, 'login'])->name('customer.login');
+
 
 Route::middleware([
     'auth:sanctum',
@@ -74,6 +79,15 @@ Route::middleware([
 
     Route::get('consultations', [ConsultationController::class, 'createForm'])->name('customer.consultationForm');
     // Route::post('consultations', [ConsultationController::class, 'store'])->name('consultations.webstore');
+
+    Route::get('/products', [ProductController::class, 'showProductPage'])->name('products');
+    // Route::get('/products', [ProductController::class, 'index'])->name('products');
+
+    Route::get('/cart', function () {
+    return view('customer.mycart');})->name('cart');
+
+    Route::post('/cart/add/{product}', [CartController::class, 'addToCart'])->name('cart.add');
+
 });
 
 

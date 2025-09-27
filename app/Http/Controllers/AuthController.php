@@ -22,21 +22,57 @@ class AuthController extends Controller
         ]);
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid login credentials'], 401);
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Invalid login credentials'], 401);
+            }
+
+            return back()->withErrors(['email' => 'Invalid credentials.']);
         }
 
-        /** @var \App\Models\UserModel $user **/
         $user = Auth::user();
-        $token = $user->createToken('api_token')->plainTextToken;
-        // session(['api_token' => $token]);
-        // $token = $user->createToken('api_token')->plainTextToken;
 
-        return response()->json([
-            'message' => 'Login successful',
-            'token' => $token,
-            'user' => $user,
-        ]);
+        // Generate Sanctum token
+        $token = $user->createToken('api_token')->plainTextToken;
+
+        if ($request->expectsJson()) {
+            // Mobile app / API client
+            return response()->json([
+                'message' => 'Login successful',
+                'token' => $token,
+                'user' => $user,
+            ]);
+        } else {
+            // Web client (e.g. form login)
+            $request->session()->put('api_token', $token); // Store token in session
+            return redirect()->route('dashboard'); // Or wherever you want
+        }
     }
+
+
+    // public function login(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required',
+    //     ]);
+
+    //     if (!Auth::attempt($request->only('email', 'password'))) {
+    //         return response()->json(['message' => 'Invalid login credentials'], 401);
+    //     }
+
+    //     /** @var \App\Models\UserModel $user **/
+    //     $user = Auth::user();
+
+    //     $token = $user->createToken('api_token')->plainTextToken;
+    //     // session(['api_token' => $token]);
+    //     // $token = $user->createToken('api_token')->plainTextToken;
+
+    //     return response()->json([
+    //         'message' => 'Login successful',
+    //         'token' => $token,
+    //         'user' => $user,
+    //     ]);
+    // }
 
     public function logout(Request $request)
     {

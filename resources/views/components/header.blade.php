@@ -71,7 +71,7 @@
         <!-- Icons -->
         <div class="col-start-3 row-start-2 flex justify-end items-center space-x-6 text-3xl">
             <a href="#" title="SEARCH FOR PRODUCTS" id="searchIcon"><i class="fa-solid fa-magnifying-glass"></i></a>
-            <a href="#" title="MY CART"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="{{ route('cart') }}" title="MY CART"><i class="fa-solid fa-cart-shopping"></i></a>
             <a href="{{ route('login') }}" title="LOGIN/ REGISTER"><i class="fa-solid fa-user"></i></a>
         </div>
     </div>

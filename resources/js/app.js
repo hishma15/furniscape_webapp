@@ -5,7 +5,8 @@ import './bootstrap';
 
 import './customer-consultation';
 import './products';
-import './auth';
+// import './auth';
+
 
 // import Alpine from 'alpinejs'
 

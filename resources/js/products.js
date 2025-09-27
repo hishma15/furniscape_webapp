@@ -1,8 +1,7 @@
 import axios from "axios";
 
+// axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.Laravel.apiToken;
 axios.defaults.withCredentials = true;
-
-import './cart';
 
 const baseUrl = window.location.origin;
 
@@ -42,7 +41,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // get CSRF cookie so Laravel can authenticate the session
-        await axios.get('/sanctum/csrf-cookie', { withCredentials: true });
+        // await axios.get('/sanctum/csrf-cookie', { withCredentials: true });
+        await axios.get('/sanctum/csrf-cookie');
 
         // load products with session cookie
         loadProducts(1, selectedCategoryId);
@@ -75,7 +75,7 @@ function loadProducts(page = 1, categoryId = '') {
             page: page,
             category_id: categoryId
         },
-        withCredentials: true 
+        // withCredentials: true 
     }). then(response => {
         const products = response.data.data;
         const meta = response.data.meta;
@@ -108,6 +108,7 @@ function generateProductsCard(product) {
         ? `${baseUrl}/storage/${product.product_image}`  // "http://localhost:8000/products/yourimage.png"
         : `${baseUrl}/images/default.jpg`;  // fallback image
 
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     return `
         <div class="product-div">
             <img src="${imageUrl}" alt="${product.product_name}" class="product-img">
@@ -115,9 +116,14 @@ function generateProductsCard(product) {
             <P class="product-price">LKR ${Number(product.price).toFixed(2)}</P>
             <div class="product-div-btn">
                 <button class="product-view-btn">View Details</button>
-                <button class="product-addtocart-btn" data-id="${product.id}" data-price="${product.price}">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </button>
+                <form action="/cart/add/${product.id}" method="POST" class="add-to-cart-form">
+                    <input type="hidden" name="_token" value="${csrfToken}">
+                    <input type="hidden" name="price" value="${product.price}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="product-addtocart-btn">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </button>
+                </form>
 
             </div>
         </div>
@@ -125,19 +131,38 @@ function generateProductsCard(product) {
 }
 
 
-/////////////////////////////////////////
-document.addEventListener('click', function (e) {
-    if (e.target.closest('.product-addtocart-btn')) {
-        const button = e.target.closest('.product-addtocart-btn');
-        const productId = button.getAttribute('data-id');
-        const price = button.getAttribute('data-price');
+function renderPagination(meta, categoryId = '') {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
 
-        addToCart(productId, price);
+    for (let page = 1; page <= meta.last_page; page++) {
+        const btn = document.createElement('button');
+        btn.textContent = page;
+        btn.className = `mx-1 px-3 py-1 rounded ${page === meta.current_page ? 'bg-blue-500 text-white' : 'bg-gray-200'}`;
+        btn.addEventListener('click', () => loadProducts(page, categoryId));
+        pagination.appendChild(btn);
     }
-});
+}
+
+// function addToCart(productId, price) {
+//     axios.post(`/cart/add/${productId}`, {
+//         price: price,
+//         quantity: 1,
+//     })
+//     .then(response => {
+//         alert('Product added to cart!');
+//         window.dispatchEvent(new Event('cart-updated'));
+//     })
+//     .catch(error => {
+//         alert('Failed to add product to cart.');
+//         console.error(error);
+//     });
+// }
+
+
+
+
 ////////////////////////////////////
-
-
 // function renderPagination(meta, category_id = '') {
 //     const pagination = document.getElementById('pagination');
 //     pagination.innerHTML = '';
@@ -152,15 +177,4 @@ document.addEventListener('click', function (e) {
 
 // }
 
-function renderPagination(meta, categoryId = '') {
-    const pagination = document.getElementById('pagination');
-    pagination.innerHTML = '';
-
-    for (let page = 1; page <= meta.last_page; page++) {
-        const btn = document.createElement('button');
-        btn.textContent = page;
-        btn.className = `mx-1 px-3 py-1 rounded ${page === meta.current_page ? 'bg-blue-500 text-white' : 'bg-gray-200'}`;
-        btn.addEventListener('click', () => loadProducts(page, categoryId));
-        pagination.appendChild(btn);
-    }
-}
+//////////////////////////////////////////

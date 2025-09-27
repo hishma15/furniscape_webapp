@@ -29,6 +29,12 @@
             window.api_token = "{{ session('api_token') ?? '' }}";
         </script> --}}
 
+    <script>
+        window.Laravel = {
+            apiToken: '{{ session('api_token') }}'
+        };
+    </script>
+
     </head>
     <body class="font-sans antialiased" data-logged-in="{{ auth()->check() ? 'true' : 'false' }}">
         {{-- <x-banner />

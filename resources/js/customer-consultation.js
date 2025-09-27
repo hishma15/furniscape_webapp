@@ -1,13 +1,14 @@
 import axios from 'axios';
 
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
+
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.Laravel.apiToken;
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     await axios.get('/sanctum/csrf-cookie'); // Needed for session-based API access
 
     handleCustomerBooking();
-    // (admin logic won't run here)
   } catch (err) {
     // console.error('CSRF setup failed', err);
 

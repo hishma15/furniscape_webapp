@@ -22,7 +22,7 @@
                 </div>
                 <h2 class="auth-heading">LOGIN</h2>
 
-                <form method="POST" action="{{ route('login') }}" id="login-form">
+                <form method="POST" action="{{ route('customer.login') }}" id="login-form">
                 @csrf
 
                     <div>

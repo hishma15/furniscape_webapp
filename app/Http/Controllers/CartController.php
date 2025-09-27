@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Http\Resources\CartResource;
+
+use App\Models\Product;
 
 class CartController extends Controller
 {
@@ -73,4 +76,44 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Cart deleted successfully.'], 200);
     }
+
+    public function addToCart(Request $request, Product $product)
+    {
+        $request->validate([
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $user = auth()->user();
+
+        // Get or create a cart for this user
+        $cart = Cart::firstOrCreate(
+            ['user_id' => $user->id],
+            ['total' => 0] // default total
+        );
+
+        // Check if the product is already in the cart
+        $cartItem = $cart->cartItems()->where('product_id', $product->id)->first();
+
+        if ($cartItem) {
+            // Update quantity and price if needed
+            $cartItem->quantity += $request->quantity;
+            $cartItem->price = $request->price; // or recalculate if needed
+            $cartItem->save();
+        } else {
+            // Create new cart item
+            $cart->cartItems()->create([
+                'product_id' => $product->id,
+                'quantity' => $request->quantity,
+                'price' => $request->price,
+            ]);
+        }
+
+        // Optionally, update cart total here...
+
+        return redirect()->back()->with('success', 'Product added to cart!');
+    }
+
+
+
 }

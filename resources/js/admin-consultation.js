@@ -5,9 +5,9 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 // // Get the token from localStorage (or your storage method)
-// const token = localStorage.getItem('api_token');
+const token = localStorage.getItem('admin_api_token');
 
-const token = window.api_token || '';
+// const token = window.api_token || '';
 
 if (token) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

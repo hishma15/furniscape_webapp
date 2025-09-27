@@ -5,6 +5,11 @@
         </h2>
     </x-slot>
 
+    @if(session('api_token'))
+    <p>Your API Token: {{ session('api_token') }}</p>
+@else
+    <p>No token found in session.</p>
+@endif
 
     {{-- <p>Token in session: {{ session('api_token') ?? 'No token' }}</p> --}}
 
@@ -36,3 +41,4 @@
 
     {{-- @vite('resources/js/products.js') --}}
 </x-app-layout>
+
