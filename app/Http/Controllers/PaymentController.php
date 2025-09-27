@@ -30,7 +30,7 @@ class PaymentController extends Controller
         // Validate the incoming request data
         $validated = $request->validate([
             'payment_method' => 'required|string|max:255',
-            'payment_status' => 'required|in:pending,completed,failed',
+            'status' => 'required|in:pending,completed,failed',
             'amount' => 'required|numeric|min:0',
             'payment_date' => 'nullable|date',
             'order_id' => 'required|exists:orders,id',
@@ -62,7 +62,7 @@ class PaymentController extends Controller
     {
         // Validate only the payment_status field
         $validated = $request->validate([
-            'payment_status' => 'required|in:pending,completed,failed',
+            'status' => 'required|in:pending,completed,failed',
         ]);
         
         // Find the payment by its ID
@@ -70,7 +70,7 @@ class PaymentController extends Controller
 
         // Update the payment status
         $payment->update([
-            'payment_status' => $validated['payment_status'],
+            'status' => $validated['status'],
         ]);
 
         // Return the updated payment as a response

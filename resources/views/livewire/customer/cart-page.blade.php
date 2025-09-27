@@ -47,7 +47,7 @@
                     </tr>
                     <tr>
                         <td colspan="5" class="text-right p-4">
-                            <a href="#" class="bg-brown font-montserrat font-semibold text-beige p-4 rounded-full cursor-pointer hover:bg-btn-hover-brown">PROCEED TO CHECKOUT</a>
+                            <a href="{{ route('customer.checkout') }}" class="bg-brown font-montserrat font-semibold text-beige p-4 rounded-full cursor-pointer hover:bg-btn-hover-brown">PROCEED TO CHECKOUT</a>
                         </td>
                     </tr>
                 </tfoot>
@@ -59,12 +59,4 @@
         @endif 
     </section>
 
-    
-{{-- 
-    <script>
-        window.addEventListener('cart-updated', () => {
-            Livewire.emit('cartUpdated');
-        });
-
-    </script> --}}
 </div>

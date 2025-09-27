@@ -10,6 +10,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
+
+use App\Livewire\Customer\PaymentForm;
 
 use Illuminate\Http\Request;
 
@@ -88,6 +92,14 @@ Route::middleware([
 
     Route::post('/cart/add/{product}', [CartController::class, 'addToCart'])->name('cart.add');
 
+    Route::get('/checkout', function () {
+    return view('customer.checkout-page');})->name('customer.checkout');
+
+    Route::get('/payment/{order_id}/{amount}', function ($order_id, $amount) {
+    return view('customer.payment-form', compact('order_id', 'amount'));})->name('payment-form');
+
+    Route::get('/order-success', function () {
+    return view('customer.order-success');})->name('order-success');
 });
 
 
