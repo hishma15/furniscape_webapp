@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <meta name="api-token" content="{{ auth()->user()->api_token }}">    <!-- meta tag makes token accessiblr to any library -->
+
         <title>{{ config('app.name', 'Laravel') }} -Admin </title>
 
         <!-- Fonts -->
@@ -21,7 +23,7 @@
         @livewireStyles
 
         <script>
-            window.api_token = "{{ session('api_token') ?? '' }}";
+            window.api_token = "{{ session('api_token') ?? '' }}";  //this makes quick to access without DOM lookups
         </script>
     </head>
     <body class="font-sans antialiased relative bg-cover bg-center h-screen" style="background-image: url('{{ asset('images/admin-back.jpg') }}');">

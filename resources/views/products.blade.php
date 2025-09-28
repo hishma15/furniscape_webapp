@@ -39,6 +39,6 @@
     {{-- Pagination --}}
     <div id="pagination" class="flex justify-center mt-6"></div>
 
-    {{-- @vite('resources/js/products.js') --}}
+    @vite('resources/js/products.js')
 </x-app-layout>
 

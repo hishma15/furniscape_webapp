@@ -4,7 +4,7 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-// // Get the token from localStorage (or your storage method)
+// // Get the token from localStorage (or storage method)
 const token = localStorage.getItem('admin_api_token');
 
 // const token = window.api_token || '';

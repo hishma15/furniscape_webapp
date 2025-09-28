@@ -7,13 +7,13 @@
             <a href="{{route('admin.products')}}" class="admin-sidemenu">
                 <i class="fa-solid fa-box"></i> Manage Products
             </a>
-            <a href="#" class="admin-sidemenu">
+            <a href=" {{route('admin.orders') }} " class="admin-sidemenu">
                 <i class="fa-solid fa-cart-shopping"></i> Manage Orders
             </a>
             <a href=" {{route('admin.consultations') }}" class="admin-sidemenu">
                 <i class="fa-solid fa-comments"></i> Manage Consultation
             </a>
-            <a href="#" class="admin-sidemenu">
+            <a href="{{route('admin.users') }}" class="admin-sidemenu">
                 <i class="fa-solid fa-users"></i> Manage Users
             </a>
             <a href="{{route('admin.categories') }}" class="admin-sidemenu">

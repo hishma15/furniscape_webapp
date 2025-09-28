@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // }
 
     const categoryFilter = document.getElementById('categoryFilter');
-    const categories = JSON.parse(categoryFilter.dataset.categories);
+    const categories = categoryFilter ? JSON.parse(categoryFilter.dataset.categories) : [];
 
     const selectedCategoryId = getQueryParam('category_id') || '';
     updateCategoryHeading(selectedCategoryId, categories);
@@ -143,23 +143,6 @@ function renderPagination(meta, categoryId = '') {
         pagination.appendChild(btn);
     }
 }
-
-// function addToCart(productId, price) {
-//     axios.post(`/cart/add/${productId}`, {
-//         price: price,
-//         quantity: 1,
-//     })
-//     .then(response => {
-//         alert('Product added to cart!');
-//         window.dispatchEvent(new Event('cart-updated'));
-//     })
-//     .catch(error => {
-//         alert('Failed to add product to cart.');
-//         console.error(error);
-//     });
-// }
-
-
 
 
 ////////////////////////////////////

@@ -17,8 +17,16 @@ class UserController extends Controller
     public function index()
     {
         //
-        $users = User::paginate(10);   //Retrieves 10 users from the database per page
+        // $users = User::paginate(10);   //Retrieves 10 users from the database per page
+
+        // Fetch users with count of related orders, paginate 10 per page
+        $users = User::withCount('orders')->paginate(10);
+
         return UserResource::collection($users);   //Ensures that the data returned is in suitable format [like JSON] for API response. 
+
+         // Fetch users from DB, with orders count (to match your usage)
+        // $users = User::withCount('orders')->get();
+        
     }
 
     /**
@@ -81,8 +89,21 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
         $user = User::findOrFail($id);
+
+        // Prevent deleting admins
+        if ($user->role === 'admin') {
+            // return back()->with('error', 'You cannot delete an admin user');
+            return response()->json(['message' => 'Cannot delete admin'], 403);
+        }
+
+        // Prrevent deleting customers with existing orders
+        if ($user->orders()->exists()) {
+            // return back()->with('error', 'Cannot delete customer who has made orders.');
+            return response()->json(['message' => 'Customer has orders, cannot delete'], 403);
+        }  
+        
         $user->delete();
 
         return response()->json(['message' => 'User deleted Successfully'], 200);  // Returns a JSON response with a success message and a 200 status code.

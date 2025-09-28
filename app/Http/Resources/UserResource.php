@@ -29,6 +29,8 @@ class UserResource extends JsonResource
             'managed_consultations' => ConsultationResource::collection($this->whenLoaded('managedConsultations')),
             'managed_categories' => CategoryResource::collection($this->whenLoaded('managedCategories')),
 
+            'orders_count' => $this->orders_count ?? 0,
+
         ];
 
     }

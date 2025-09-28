@@ -3,8 +3,8 @@ import './bootstrap';
 // import { generateApiToken } from './auth';
 // console.log('Token:', window.api_token);
 
-import './customer-consultation';
-import './products';
+// import './customer-consultation';
+// import './products';
 // import './auth';
 
 

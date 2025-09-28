@@ -60,4 +60,6 @@
             </form>   
         </div>
     </div>
+
+        @vite('resources/js/customer-consultation.js')
 </x-app-layout>

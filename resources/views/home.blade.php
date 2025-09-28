@@ -16,20 +16,14 @@
 
     <!-- Categories -->
     <section id="categories">
-        <h1 class="heading-style">SHOP OUR FURNITURE COLLECTION</h1>
+        <h1 id="category-name" class="heading-style">SHOP OUR FURNITURE COLLECTION</h1>
         <div class="flex overflow-x-auto space-x-8 p-5">
             @foreach ($categories as $category)
                 <div class="home-category">
-                    {{-- <a href="{{ route('category.products', $category->id) }}">
+                    <a href="{{ route('products') }}?category_id={{ $category->id }}">
                         <img src="{{ asset('storage/' . $category->category_image) }}" alt="{{ $category->category_name }}" class="home-category-img">
                     </a>
-                    <a href="{{ route('category.products', $category->id) }}" class="home-category-name">
-                        {{ $category->category_name }}
-                    </a> --}}
-                    <a href="#">
-                        <img src="{{ asset('storage/' . $category->category_image) }}" alt="{{ $category->category_name }}" class="home-category-img">
-                    </a>
-                    <a href="#" class="home-category-name">
+                    <a href="{{ route('products') }}?category_id={{ $category->id }}" class="home-category-name">
                         {{ $category->category_name }}
                     </a>
                 </div>
@@ -64,9 +58,14 @@
                             <i class="fa-solid fa-cart-shopping"></i>
                         </a> --}}
                         <a href="#" class="product-view-btn">View Details</a>
-                        <a href="#" class="product-addtocart-btn">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </a>
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST" class="add-to-cart-form">
+                            @csrf
+                            <input type="hidden" name="price" value="{{ $product->price }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="product-addtocart-btn">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             @endforeach
@@ -110,5 +109,5 @@
         <img src="{{ asset('images/furniturebanner2.png') }}" alt="Furniscape Banner" class="w-full h-40">
     </section>
 
-
+    @vite('resources/js/products.js')
 </x-app-layout>

@@ -16,7 +16,7 @@ class OrderController extends Controller
     {
         //
         // Load orders with related models: customer, admin, payment, orderItems
-        $orders = Order::with(['customer', 'admin', 'payment', 'orderItems'])->paginate(10);
+        $orders = Order::with(['customer', 'admin', 'payment', 'orderItems.product'])->paginate(10);
         return OrderResource::collection($orders);
     }
 
@@ -49,7 +49,7 @@ class OrderController extends Controller
     public function show(string $id)
     {
         //
-        $order = Order::with(['customer', 'admin', 'payment', 'orderItems'])->findOrFail($id);
+        $order = Order::with(['customer', 'admin', 'payment', 'orderItems.product'])->findOrFail($id);
         return new OrderResource($order);
     }
 
@@ -60,15 +60,15 @@ class OrderController extends Controller
     {
         //
         $validated = $request->validate([
-            'total_amount' => 'required|numeric|min:0',
-            'order_date' => 'required|date',
+            'total_amount' => 'sometimes|numeric|min:0',
+            'order_date' => 'sometimes|date',
             'delivery_date' => 'nullable|date|after_or_equal:order_date',
-            'home_no' => 'required|string|max:255',
-            'street' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
+            'home_no' => 'sometimes|string|max:255',
+            'street' => 'sometimes|string|max:255',
+            'city' => 'sometimes|string|max:255',
             'status' => 'required|string|in:pending,processing,completed,cancelled',
-            'admin_id' => 'required|exists:users,id',
-            'customer_id' => 'required|exists:users,id',
+            'admin_id' => 'sometimes|exists:users,id',
+            'customer_id' => 'sometimes|exists:users,id',
         ]);
 
         $order = Order::findOrFail($id);

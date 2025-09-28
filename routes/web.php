@@ -12,6 +12,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\UserController;
 
 use App\Livewire\Customer\PaymentForm;
 
@@ -139,6 +140,12 @@ Route::middleware(['auth'])->group(function () {
         }
         return view('admin.manage-consultation');
     })->name('admin.consultations'); 
+
+    Route::get('/admin/orders', function () {
+        return view('admin.manage-order');})->name('admin.orders');
+
+    Route::get('/admin/users', function () {
+        return view('admin.manage-users');})->name('admin.users');
 });
 
 
