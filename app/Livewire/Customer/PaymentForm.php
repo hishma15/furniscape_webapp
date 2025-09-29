@@ -63,7 +63,8 @@ class PaymentForm extends Component
         // Trigger invoice PDF download or redirect
         session()->flash('success', 'Payment completed successfully!');
 
-        return redirect()->route('order-success', ['order' => $this->order_id]);
+        return redirect()->route('order-success', ['order_id' => $this->order_id]);
+
     }
 
     public function render()

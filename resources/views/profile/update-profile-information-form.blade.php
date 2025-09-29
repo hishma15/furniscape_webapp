@@ -81,6 +81,20 @@
                 @endif
             @endif
         </div>
+
+        {{-- <!-- Address -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="address" value="{{ __('Address') }}" />
+            <x-input id="address" type="text" class="mt-1 block w-full" wire:model.defer="state.address" autocomplete="address" />
+            <x-input-error for="address" class="mt-2" />
+        </div>
+
+        <!-- Phone Number -->
+    <div class="col-span-6 sm:col-span-4">
+        <x-label for="phone_no" value="{{ __('Phone Number') }}" />
+        <x-input id="phone_no" type="tel" class="mt-1 block w-full" wire:model.defer="state.phone_no" autocomplete="tel" />
+        <x-input-error for="phone_no" class="mt-2" />
+    </div> --}}
     </x-slot>
 
     <x-slot name="actions">

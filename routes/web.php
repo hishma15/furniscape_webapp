@@ -99,8 +99,11 @@ Route::middleware([
     Route::get('/payment/{order_id}/{amount}', function ($order_id, $amount) {
     return view('customer.payment-form', compact('order_id', 'amount'));})->name('payment-form');
 
-    Route::get('/order-success', function () {
-    return view('customer.order-success');})->name('order-success');
+    Route::get('/order-success/{order_id}', function ($order_id) {
+        return view('customer.order-success', compact('order_id'));
+    })->name('order-success');
+
+    Route::get('/order/{order_id}/invoice', [OrderController::class, 'downloadInvoice'])->name('order.invoice');
 });
 
 

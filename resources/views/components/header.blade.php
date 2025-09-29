@@ -63,11 +63,12 @@
         </nav>
 
         <!-- Search bar -->
-        <form action="#" method="GET" class="md:col-start-2 md:row-start-2 col-start-2 row-start-1 hidden justify-center items-center space-x-6" id="searchBar">
-            <input type="search" name="search" placeholder="Search our furniture collection..." class="w-full px-4 py-2 border border-black rounded-full focus:outline-none focus:ring-2 focus:ring-black bg-background-gray">
+        <form wire:submit.prevent="search" class="md:col-start-2 md:row-start-2 col-start-2 row-start-1 hidden justify-center items-center space-x-6" id="searchBar">
+            <input type="search" wire:model.debounce.300ms="searchTerm"  name="search" placeholder="Search our furniture collection..." class="w-full px-4 py-2 border border-black rounded-full focus:outline-none focus:ring-2 focus:ring-black bg-background-gray">
             <button class="btn bg-black text-beige py-2 px-4 rounded-full font-montserrat font-light" type="submit">Search</button>
         </form>
-
+        {{-- @livewire('customer.product-search') --}}
+        
         <!-- Icons -->
         <div class="col-start-3 row-start-2 flex justify-end items-center space-x-6 text-3xl">
             <a href="#" title="SEARCH FOR PRODUCTS" id="searchIcon"><i class="fa-solid fa-magnifying-glass"></i></a>

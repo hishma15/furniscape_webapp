@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Http\Resources\OrderResource;
 
+use PDF; //TO DOWLOAD INVOICE pdf
+
 class OrderController extends Controller
 {
     /**
@@ -88,4 +90,15 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Order deleted successfully.'], 200);
     }
+
+    public function downloadInvoice($orderId)
+    {
+        $order = Order::with('orderItems.product', 'customer')->findOrFail($orderId);
+
+        $pdf = PDF::loadView('customer.order-invoice', compact('order'));
+
+        // Download the PDF file
+        return $pdf->download('invoice_order_'.$order->id.'.pdf');
+    }
+
 }

@@ -15,7 +15,9 @@ class ProductController extends Controller
     public function showProductPage(Request $request)
 {
     $categories = Category::all();
-    return view('products', compact('categories'));
+    $searchTerm = $request->query('search', '');
+
+    return view('products', compact('categories', 'searchTerm'));
 }
 
 

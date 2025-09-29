@@ -5,40 +5,39 @@
         </h2>
     </x-slot>
 
-    @if(session('api_token'))
-    <p>Your API Token: {{ session('api_token') }}</p>
-@else
-    <p>No token found in session.</p>
-@endif
-
-    {{-- <p>Token in session: {{ session('api_token') ?? 'No token' }}</p> --}}
-
-
-    {{-- Category Name --}}
-    <h1 class="heading-style" id="category-name"></h1>
-
-
-<div class="px-6 py-2">
-        <label for="categoryFilter" class="font-semibold mr-2">Filter by Category:</label>
-        <select id="categoryFilter" class="border border-gray-300 rounded px-3 py-2" 
-                data-categories='@json($categories)'>
-            <option value="">All Categories</option>
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                    {{ $category->category_name }}
-                </option>
-            @endforeach
-        </select>
+    @if (session()->has('success'))
+    <div class="text-green-700 bg-green-100 border border-green-300 p-3 rounded mt-4">
+        {{ session('success') }}
     </div>
+    @endif
 
-    {{-- Product Lists --}}
-    <section id="product-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-        {{-- JS will load the poducts --}}
-    </section>
+    <div id="livewire-success-message" class="hidden text-green-700 bg-green-100 border border-green-300 p-3 rounded mt-4"></div>
 
-    {{-- Pagination --}}
-    <div id="pagination" class="flex justify-center mt-6"></div>
 
-    @vite('resources/js/products.js')
+    @livewire('customer.product-details-modal')
+
+    @livewire('customer.product-search', ['initialSearchTerm' => request('search'), 'category_id' => request('category_id')])
+
+    <script>
+window.addEventListener('notify-success', event => {
+    const message = event.detail?.message || 'No message found';
+    console.log('Message:', message);
+
+    const livewireMessageBox = document.getElementById('livewire-success-message');
+    if (livewireMessageBox) {
+        livewireMessageBox.textContent = message;
+        livewireMessageBox.classList.remove('hidden');
+
+        setTimeout(() => {
+            livewireMessageBox.classList.add('hidden');
+            livewireMessageBox.textContent = '';
+        }, 3000);
+    }
+});
+
+
+</script>
+
+
 </x-app-layout>
 

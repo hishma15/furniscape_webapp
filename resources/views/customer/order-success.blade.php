@@ -14,7 +14,7 @@
         BACK TO HOME
     </a>
 
-    <a href="#" 
+    <a href="{{ route('order.invoice', $order_id) }}" 
        class="mt-6 bg-green-600 py-5 px-5 rounded-full font-montserrat font-bold text-white hover:bg-green-700 transition duration-300 w-auto mx-auto">
        Download Invoice PDF
     </a>
