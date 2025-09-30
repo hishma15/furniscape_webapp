@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     await axios.get('/sanctum/csrf-cookie'); // Needed for session-based API access
 
     handleCustomerBooking();
+
+     //Hook into Livewire lifecycle to re-bind after DOM updates
+    window.livewire?.hook('message.processed', () => {
+      setupConsultationDeleteButtons();
+    });
+
+    setupConsultationDeleteButtons();
+
   } catch (err) {
     // console.error('CSRF setup failed', err);
 
@@ -54,4 +62,30 @@ function handleCustomerBooking() {
     }
   });
 }
+
+function setupConsultationDeleteButtons() {
+  const buttons = document.querySelectorAll('.delete-consultation-btn');
+  console.log('Found consultation delete buttons:', buttons.length);
+
+  buttons.forEach(button => {
+    console.log('Binding click event to:', button);
+
+    button.addEventListener('click', async () => {
+      const consultationId = button.dataset.id;
+      console.log('Clicked delete on consultation ID:', consultationId);
+
+      if (!confirm('Are you sure you want to delete this consultation?')) return;
+
+      try {
+        await axios.delete(`/api/consultations/${consultationId}`);
+        alert('Consultation deleted successfully!');
+        location.reload();
+      } catch (error) {
+        console.error(error);
+        alert(error?.response?.data?.message || 'Error deleting consultation.');
+      }
+    });
+  });
+}
+
 

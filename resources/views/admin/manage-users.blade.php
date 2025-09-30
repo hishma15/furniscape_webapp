@@ -31,17 +31,37 @@
                 </tbody>
             </table>
         </div>
+
+        <div id="pagination" class="mt-4 flex justify-center space-x-2">
+            {{-- Pagination buttons will be injected here --}}
+        </div>
     </div>    
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            fetchUsers();
-        })
+            // If you use token auth like in your example, uncomment below and set token accordingly:
+            /*
+            const token = localStorage.getItem('admin_api_token');
+            if (!token) {
+                alert('No admin token found! Please login.');
+                return;
+            }
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            */
 
-        function fetchUsers() {
-            axios.get('/api/users')  
+            loadUsers();
+        });
+
+        let currentPage = 1;
+
+        function loadUsers(page = 1) {
+            currentPage = page;
+            axios.get(`/api/users?page=${page}`)
                 .then(response => {
-                    const users = response.data.data || response.data;
+                    const resData = response.data;
+                    const users = resData.data || resData;
+                    const meta = resData.meta || {};
+
                     const tbody = document.getElementById('users-table-body');
                     tbody.innerHTML = '';
 
@@ -49,23 +69,24 @@
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
                             <td class="border px-4 py-2">${user.id}</td>
-                        <td class="border px-4 py-2">${user.email}</td>
-                        <td class="border px-4 py-2">${user.name || ''}</td>
-                        <td class="border px-4 py-2">${user.phone_no || ''}</td>
-                        <td class="border px-4 py-2">${user.address || ''}</td>
-                        <td class="border px-4 py-2 capitalize">${user.role}</td>
-                        <td class="border px-4 py-2">${user.orders_count || 0}</td>
-                        <td class="border px-4 py-2">
-                            <button 
-                                onclick="deleteUser(${user.id})" 
-                                class="text-red-600 px-4 py-2 rounded-full font-semibold border-red-500 border-2 hover:bg-red-500 hover:text-white">
-                                Delete
-                            </button>
-                        </td>
+                            <td class="border px-4 py-2">${user.email}</td>
+                            <td class="border px-4 py-2">${user.name || ''}</td>
+                            <td class="border px-4 py-2">${user.phone_no || ''}</td>
+                            <td class="border px-4 py-2">${user.address || ''}</td>
+                            <td class="border px-4 py-2 capitalize">${user.role}</td>
+                            <td class="border px-4 py-2">${user.orders_count || 0}</td>
+                            <td class="border px-4 py-2">
+                                <button 
+                                    onclick="deleteUser(${user.id})" 
+                                    class="text-red-600 px-4 py-2 rounded-full font-semibold border-red-500 border-2 hover:bg-red-500 hover:text-white">
+                                    Delete
+                                </button>
+                            </td>
                         `;
-
                         tbody.appendChild(tr);
                     });
+
+                    renderPagination(meta);
                 })
                 .catch(error => {
                     alert('Failed to fetch users');
@@ -73,16 +94,35 @@
                 });
         }
 
+        function renderPagination(meta) {
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+
+            if (!meta || meta.last_page <= 1) return; // No pagination needed
+
+            for (let page = 1; page <= meta.last_page; page++) {
+                const btn = document.createElement('button');
+                btn.textContent = page;
+                btn.className = `mx-1 px-3 py-1 rounded ${page === meta.current_page ? 'bg-brown text-white' : 'bg-gray-200 hover:bg-gray-400'}`;
+                if (page !== meta.current_page) {
+                    btn.addEventListener('click', () => loadUsers(page));
+                } else {
+                    btn.disabled = true;
+                }
+                paginationContainer.appendChild(btn);
+            }
+        }
+
         function deleteUser(userId) {
             if (!confirm('Are you sure you want to delete this user?')) return;
 
             axios.delete(`/api/users/${userId}`, {
                 headers: {
-                    'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
             }).then(response => {
                 alert(response.data.message || 'User Deleted');
-                location.reload();  
+                loadUsers(currentPage);  // Reload current page after delete
             })
             .catch(error => {
                 if (error.response && error.response.data.message) {
@@ -92,7 +132,6 @@
                 }
             });
         }
-
     </script>
-    
+
 </x-admin-layout>

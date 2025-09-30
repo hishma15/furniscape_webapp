@@ -25,7 +25,7 @@
             </div>
             @error('payment_method') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
 
-            <!-- Credit Card Fields (conditionally shown) -->
+            <!-- Credit Card Fields [if credit card selected] -->
             @if($payment_method === 'credit_card')
                 <div class="space-y-4">
                     <div class="flex items-center space-x-4">
@@ -48,18 +48,27 @@
                 </div>
             @endif
 
-            <!-- Payment Amount (readonly) -->
-            <div class="flex items-center space-x-4">
-                <x-label for="amount" class="w-40">Amount:</x-label>
-                <x-input type="text" id="amount" wire:model="amount" readonly />
-            </div>
-
-            <!-- Payment Instructions for non-card methods -->
+            <!-- PayPal Fields (optional extra) -->
             @if($payment_method === 'paypal')
+                <div class="flex items-center space-x-4">
+                    <x-label for="paypal_email" class="w-40">PayPal Email:</x-label>
+                    <x-input type="email" id="paypal_email" wire:model.defer="paypal_email" placeholder="your-email@example.com" />
+                </div>
+                @error('paypal_email') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+
                 <p class="text-sm text-gray-700 mt-4">
-                    Please send payment to <strong>paypal@example.com</strong>. You will receive a confirmation email once your payment is verified.
+                    Please send payment to <strong>furniscapepaypal@example.com</strong>. You will receive a confirmation email once your payment is verified.
                 </p>
-            @elseif($payment_method === 'bank_transfer')
+            @endif
+
+            <!-- Bank Transfer Fields (optional extra) -->
+            @if($payment_method === 'bank_transfer')
+                <div class="flex items-center space-x-4">
+                    <x-label for="bank_reference" class="w-40">Reference Number:</x-label>
+                    <x-input type="text" id="bank_reference" wire:model.defer="bank_reference" placeholder="Reference for your transfer" />
+                </div>
+                @error('bank_reference') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+
                 <p class="text-sm text-gray-700 mt-4">
                     Transfer the amount to the following account:<br>
                     <strong>Bank:</strong> XYZ Bank<br>
@@ -68,6 +77,12 @@
                     Include your Order ID in the reference.
                 </p>
             @endif
+
+            <!-- Payment Amount (readonly) -->
+            <div class="flex items-center space-x-4">
+                <x-label for="amount" class="w-40">Amount:</x-label>
+                <x-input type="text" id="amount" wire:model="amount" readonly />
+            </div>
 
             <!-- Submit Button -->
             <div class="pt-4">

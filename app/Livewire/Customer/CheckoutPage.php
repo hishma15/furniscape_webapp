@@ -7,6 +7,9 @@ use App\Models\Order;
 
 use Livewire\Component;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderConfirmationMail;
+
 use Illuminate\Support\Facades\Auth;
 
 class CheckoutPage extends Component
@@ -64,12 +67,20 @@ class CheckoutPage extends Component
         ]);
 
         foreach ($cart->cartItems as $item) {
+            $product = $item->product;
+
+            // Reduce stock
+            $product->decrement('no_of_stock', $item->quantity);
+
             $order->orderItems()->create([
                 'product_id' => $item->product_id,
                 'quantity' => $item->quantity,
                 'price_at_purchase' => $item->price,
             ]);
         }
+
+        // Send order confirmation email
+        Mail::to($this->email)->send(new OrderConfirmationMail($order));
 
         session(['order_id' => $order->id]);
 

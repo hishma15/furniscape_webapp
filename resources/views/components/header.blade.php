@@ -11,7 +11,7 @@
 
         <div class="flex md:flex-row flex-col gap-2">
             @auth
-                <a href="#" class="bg-brown hover:bg-btn-hover-brown text-beige font-semibold py-2 px-4 mr-3 rounded transition">
+                <a href="{{ route('profile.show') }}" class="bg-brown hover:bg-btn-hover-brown text-beige font-semibold py-2 px-4 mr-3 rounded transition">
                     My Profile
                 </a>
                 <form method="POST" action="{{ route('logout') }}">

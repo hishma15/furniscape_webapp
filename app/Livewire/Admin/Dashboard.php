@@ -17,13 +17,34 @@ class Dashboard extends Component
     public $ordersCount;
     public $consultationsCount;
 
-    public $statusCounts = [];
+    public $lowStockProducts = [];
+
+    public $statusCounts = [];   //consultation status count
+    public $orderStatusCounts = [];   //order status count
+
+    public $productCategoryCounts = [];  // products according to the categories
 
     public function mount()
     {
         $this->productsCount = Product::count();
         $this->ordersCount = Order::count();
         $this->consultationsCount = Consultation::count();
+
+        // Get low stock products (less than 5)
+        $this->lowStockProducts = Product::where('no_of_stock', '<', 2)->get();
+
+        // Group by order status  MY SQL
+        $this->orderStatusCounts = Order::select('status', DB::raw('count(*) as count'))
+        ->groupBy('status')
+        ->pluck('count', 'status')
+        ->toArray();
+
+        // Group by category
+        $this->productCategoryCounts = Product::select('categories.category_name as name', DB::raw('COUNT(products.id) as count'))
+        ->join('categories', 'products.category_id', '=', 'categories.id')
+        ->groupBy('categories.category_name')
+        ->pluck('count', 'name')
+        ->toArray();
 
         // MongoDB aggregation - group by status
         $result = Consultation::raw(function ($collection) {
@@ -48,7 +69,7 @@ class Dashboard extends Component
     {
         // return view('livewire.admin.dashboard');
 
-        $recentOrders = \App\Models\Order::with('customer') // eager-load customer
+        $recentOrders = Order::with('customer') // eager-load customer
         ->latest()
         ->take(5)
         ->get();

@@ -60,7 +60,7 @@ class ProductController extends Controller
             'no_of_stock' => 'required|integer|min:0',
             'price' => 'required|numeric|min:0',
             'type' => 'required|string',
-            'product_image' => 'nullable|string',
+            'product_image' => 'nullable|image|max:2048',
             'description' => 'nullable|string',
             'is_featured' => 'boolean',
             'category_id' => 'required|exists:categories,id',
@@ -94,7 +94,7 @@ class ProductController extends Controller
             'no_of_stock' => 'required|integer|min:0',
             'price' => 'required|numeric|min:0',
             'type' => 'required|string',
-            'product_image' => 'nullable|string',
+            'product_image' => 'nullable|image|max:2048',
             'description' => 'nullable|string',
             'is_featured' => 'boolean',
             'category_id' => 'required|exists:categories,id',
@@ -119,4 +119,10 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Product deleted successfully.'], 200);
     }
+
+    // public function lowStockProducts()
+    // {
+    //     $products = Product::where('no_of_stock', '<', 2)->get();
+    //     return view('admin.low-stock', compact('products'));
+    // }
 }

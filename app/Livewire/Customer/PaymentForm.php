@@ -16,6 +16,9 @@ class PaymentForm extends Component
     public $amount;
     public $order_id;
 
+    public $paypal_email;
+    public $bank_reference;
+
     protected function rules()
     {
         $rules = [
@@ -30,14 +33,28 @@ class PaymentForm extends Component
             $rules['cvv'] = 'required|digits_between:3,4';
         }
 
+        if ($this->payment_method === 'paypal') {
+            $rules['paypal_email'] = 'required|email';
+        }
+
+        if ($this->payment_method === 'bank_transfer') {
+            $rules['bank_reference'] = 'required|string|min:3';
+        }
+
         return $rules;
+    }
+
+    public function updatedPaymentMethod($value)
+    {
+        // Re-validate when payment method changes to update errors/messages immediately
+        $this->validateOnly('payment_method');
     }
 
     public function mount($order_id, $amount)
     {
         $this->order_id = $order_id;
         $this->amount = $amount;
-    }
+    }    
 
     public function processPayment()
     {

@@ -29,9 +29,17 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'category_name' => 'required|string|max:255',
             'category_desc' => 'nullable|string',
-            'category_image' => 'nullable|string',
-            'admin_id' => 'required|exists:users,id',
+            'category_image' => 'nullable|image|max:2048',
+            'admin_id' => 'nullable|exists:users,id',
         ]);
+
+        if ($request->hasFile('category_image')) {
+            $imagePath = $request->file('category_image')->store('categories', 'public');
+            $validated['category_image'] = $imagePath;
+        }
+
+        // Add the admin_id to the validated data
+        $validated['admin_id'] = auth()->id();
 
         $category = Category::create($validated);
         return new CategoryResource($category);
@@ -57,11 +65,17 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'category_name' => 'required|string|max:255',
             'category_desc' => 'nullable|string',
-            'category_image' => 'nullable|string',
-            'admin_id' => 'required|exists:users,id',
+            'category_image' => 'nullable|image|max:2048',
+            'admin_id' => 'nullable|exists:users,id',
         ]);
 
         $category = Category::findOrFail($id);
+
+        if ($request->hasFile('category_image')) {
+            $imagePath = $request->file('category_image')->store('categories', 'public');
+            $validated['category_image'] = $imagePath;
+        }
+
         $category->update($validated);
 
         return new CategoryResource($category);

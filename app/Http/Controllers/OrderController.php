@@ -34,7 +34,7 @@ class OrderController extends Controller
             'home_no' => 'required|string|max:255',
             'street' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'status' => 'required|string|in:pending,processing,completed,cancelled',
+            'status' => 'required|string|in:pending,processing,shipped,delivered,cancelled',
             'admin_id' => 'required|exists:users,id',
             'customer_id' => 'required|exists:users,id',
         ]);
@@ -68,7 +68,7 @@ class OrderController extends Controller
             'home_no' => 'sometimes|string|max:255',
             'street' => 'sometimes|string|max:255',
             'city' => 'sometimes|string|max:255',
-            'status' => 'required|string|in:pending,processing,completed,cancelled',
+            'status' => 'required|string|in:pending,processing,shipped,delivered,cancelled',
             'admin_id' => 'sometimes|exists:users,id',
             'customer_id' => 'sometimes|exists:users,id',
         ]);
