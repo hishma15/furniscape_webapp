@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <div id="notification" class="hidden p-3 rounded mt-4 text-green-700"></div>
 <div class="container mx-auto p-6">
 
     <x-slot name="header">

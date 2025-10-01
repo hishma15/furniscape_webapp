@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <div id="notification" class="hidden p-3 rounded mt-4"></div>
     <x-slot name="header">
         <h1 class="text-3xl font-bold text-black text-center font-lustria">MANAGE ORDERS</h1>
     </x-slot>

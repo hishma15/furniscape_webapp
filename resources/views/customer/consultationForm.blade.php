@@ -1,6 +1,7 @@
 <x-app-layout>
     <div class="customer-auth-back" style="background-image: url('{{ asset('images/loginback.png') }}');">
         <div class="cusotmer-auth-section">
+            <div id="notification" class="hidden p-3 rounded mt-4"></div>
             <h2 class="auth-heading">LETS DESIGN YOUR DREAM SPACE</h2>
 
             <form id="consultation-form" novalidate>

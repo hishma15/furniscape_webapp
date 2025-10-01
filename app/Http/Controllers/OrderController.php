@@ -35,8 +35,8 @@ class OrderController extends Controller
             'street' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'status' => 'required|string|in:pending,processing,shipped,delivered,cancelled',
-            'admin_id' => 'required|exists:users,id',
-            'customer_id' => 'required|exists:users,id',
+            'admin_id' => 'nullable|exists:users,id',
+            'customer_id' => 'nullable|exists:users,id',
         ]);
 
         $order = Order::create($validated);

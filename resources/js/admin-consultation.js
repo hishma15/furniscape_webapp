@@ -64,7 +64,7 @@ function getActions(consultation) {
   let buttons = '';
 
   if (currentStatus === 'pending') {
-    buttons += `<button onclick="updateStatus('${id}', 'confirmed')" class="bg-blue-500 text-white px-2 py-1 rounded mr-1">Confirm</button>`;
+    buttons += `<button onclick="updateStatus('${id}', 'confirmed')" class="bg-green-500 text-white px-2 py-1 rounded mr-1">Confirm</button>`;
     buttons += `<button onclick="updateStatus('${id}', 'cancelled')" class="bg-red-500 text-white px-2 py-1 rounded">Cancel</button>`;
   } else if (currentStatus === 'confirmed') {
     buttons += `<button onclick="updateStatus('${id}', 'completed')" class="bg-green-600 text-white px-2 py-1 rounded">Complete</button>`;
@@ -76,7 +76,8 @@ function getActions(consultation) {
 window.updateStatus = function (id, newStatus) {
   axios.put(`/api/consultations/${id}`, { status: newStatus })
     .then(() => {
-      alert('Status updated!');
+      // alert('Status updated!');
+      showNotification('Consultation updated successfully.', 'success');
       location.reload();
     })
     .catch(handleError);

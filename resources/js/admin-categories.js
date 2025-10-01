@@ -138,7 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (confirm('Are you sure you want to delete this category?')) {
                         try {
                             await axios.delete(`/api/categories/${id}`);
-                            alert('Category deleted successfully.');
+                            // alert('Category deleted successfully.');
+                            showNotification('Category deleted successfully.', 'success');
                             loadCategories(currentPage);
                         } catch (err) {
                             alert('Failed to delete category.');
@@ -172,11 +173,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     params: { _method: 'PUT' }, // Laravel expects PUT, but formData needs to spoof
                 });
-                alert('Category updated successfully.');
+                // alert('Category updated successfully.');
+                showNotification('Category updated successfully.', 'success');
             } else {
                 // Create
                 await axios.post('/api/categories', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-                alert('Category created successfully.');
+                // alert('Category created successfully.');
+                showNotification('Category created successfully.', 'success');
             }
             closeModal();
             loadCategories(currentPage);
@@ -192,6 +195,29 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(error);
         }
     });
+
+
+    // NOTIFICATION
+    function showNotification(message, type = 'success') {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+
+        notification.classList.remove('hidden');
+        notification.classList.remove('bg-green-100', 'text-green-700', 'bg-red-100', 'text-red-700');
+
+        if (type === 'success') {
+            notification.classList.add('bg-green-100', 'text-green-700', 'border', 'border-green-300');
+        } else {
+            notification.classList.add('bg-red-100', 'text-red-700', 'border', 'border-red-300');
+        }
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            notification.classList.add('hidden');
+            notification.textContent = '';
+        }, 5000);
+    }
+
 
     // Load first page on start
     loadCategories();

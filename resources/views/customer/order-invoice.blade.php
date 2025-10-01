@@ -12,10 +12,16 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Invoice #{{ $order->id }}</h1>
-        <p>Placed on {{ $order->created_at->format('d M Y') }}</p>
+    <div class="flex flex-row">
+        <img src="{{ asset('images/logoPNG.png') }}" alt="FurniScape" style="height:120px; width:auto;">
+
+        <div class="header">
+            <h1>Invoice #{{ $order->id }}</h1>
+            <p>Placed on {{ $order->created_at->format('d M Y') }}</p>
+        </div>
+
     </div>
+    
 
     <div class="details">
         <h3>Customer Details</h3>

@@ -91,7 +91,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     });
 
-                    alert('Order updated!');
+                    // alert('Order updated!');
+                    showNotification('Order updated successfully.', 'success');
                     fetchOrders(); // Optionally refresh the data
 
                 } catch (error) {

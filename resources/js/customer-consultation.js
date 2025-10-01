@@ -55,7 +55,8 @@ function handleCustomerBooking() {
 
     try {
         await axios.post('/api/consultations', data);
-        alert('Consultation booked successfully!');
+        // alert('Consultation booked successfully!');
+        showNotification('Consultation booked successfully.', 'success');
         form.reset();
     } catch (error) {
         handleError(error);
@@ -78,7 +79,8 @@ function setupConsultationDeleteButtons() {
 
       try {
         await axios.delete(`/api/consultations/${consultationId}`);
-        alert('Consultation deleted successfully!');
+        // alert('Consultation deleted successfully!');
+        showNotification('Consultation deleted successfully.', 'success');
         location.reload();
       } catch (error) {
         console.error(error);

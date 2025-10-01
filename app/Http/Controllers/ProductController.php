@@ -67,6 +67,11 @@ class ProductController extends Controller
             'admin_id' => 'required|exists:users,id',
         ]);
 
+        if ($request->hasFile('product_image')) {
+            $imagePath = $request->file('product_image')->store('products', 'public');
+            $validated['product_image'] = $imagePath;
+        }
+
         $product = Product::create($validated);
         return new ProductResource($product);
         
@@ -102,6 +107,11 @@ class ProductController extends Controller
         ]);
 
         $product = Product::findOrFail($id);
+
+        if ($request->hasFile('product_image')) {
+            $imagePath = $request->file('product_image')->store('products', 'public');
+            $validated['product_image'] = $imagePath;
+        }
 
         $product->update($validated);
         return new ProductResource($product);
