@@ -44,7 +44,7 @@ class AuthController extends Controller
         } else {
             // Web client (e.g. form login)
             $request->session()->put('api_token', $token); // Store token in session
-            return redirect()->route('dashboard'); // Or wherever you want
+            return redirect()->route('dashboard'); 
         }
     }
 

@@ -109,5 +109,5 @@
         <img src="{{ asset('images/furniturebanner2.png') }}" alt="Furniscape Banner" class="w-full h-40">
     </section>
 
-    @vite('resources/js/products.js')
+    {{-- @vite('resources/js/products.js') --}}
 </x-app-layout>

@@ -65,6 +65,6 @@
 
         @livewireScripts
 
-        @vite('resources/js/products.js')
+        {{-- @vite('resources/js/products.js') --}}
     </body>
 </html>

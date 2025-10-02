@@ -28,7 +28,11 @@ class Dashboard extends Component
     {
         $this->productsCount = Product::count();
         $this->ordersCount = Order::count();
-        $this->consultationsCount = Consultation::count();
+        
+        $this->consultationsCount = Consultation::raw(function($collection) {
+           return $collection->countDocuments();
+        });
+
 
         // Get low stock products (less than 5)
         $this->lowStockProducts = Product::where('no_of_stock', '<', 2)->get();

@@ -39,15 +39,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // If you use token auth like in your example, uncomment below and set token accordingly:
-            /*
+            
             const token = localStorage.getItem('admin_api_token');
             if (!token) {
                 alert('No admin token found! Please login.');
                 return;
             }
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            */
+            
 
             loadUsers();
         });
